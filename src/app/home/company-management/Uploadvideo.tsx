@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Image from 'next/image';
 
 type Video = {
     videoURL: string;
@@ -124,7 +125,7 @@ export default function VideoLibraryDashboard() {
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {videos.map((video, i) => (
                     <div key={i} className="bg-white rounded-lg shadow-md p-4">
-                        <img
+                        <Image
                             src={video.thumbnailURL}
                             alt="Thumbnail"
                             className="w-full h-40 object-cover rounded mb-2"

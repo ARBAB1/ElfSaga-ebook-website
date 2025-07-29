@@ -128,6 +128,8 @@ export default function VideoLibraryDashboard() {
                         <Image
                             src={video.thumbnailURL}
                             alt="Thumbnail"
+                            width={500}
+                            height={300}
                             className="w-full h-40 object-cover rounded mb-2"
                         />
                         <video

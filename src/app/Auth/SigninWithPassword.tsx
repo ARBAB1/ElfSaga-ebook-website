@@ -35,7 +35,7 @@ export default function SigninWithPassword() {
 
     try {
       const res = await loginUser({ username: data.email, password: data.password });
-
+      console.log('Login response:', res);
       if (res.accessToken) {
         localStorage.setItem('token', res.accessToken); // Save token if needed
         router.push('/home'); // Redirect to dashboard

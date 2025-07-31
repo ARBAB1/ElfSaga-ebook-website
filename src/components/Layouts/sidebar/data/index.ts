@@ -12,8 +12,14 @@ export const NAV_DATA = [
         items: [],
       },
       {
-        title: "Video Management",
+        title: "Paid Playlsit Upload",
         url: "/home/company-management",
+        icon: Icons.User,
+        items: [],
+      },
+      {
+        title: "Free Playlist Upload",
+        url: "/home/company-active-plans",
         icon: Icons.User,
         items: [],
       },

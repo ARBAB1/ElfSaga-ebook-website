@@ -1,6 +1,6 @@
 // next.config.mjs
 export default {
-  output: "export", // Static export configuration
+
   images: {
     remotePatterns: [
       {
@@ -21,10 +21,16 @@ export default {
       {
         protocol: "https",
         hostname: "pub-b7fd9c30cdbf439183b75041f5f71b92.r2.dev",
-        port: "",
+        port: ""
       },
-    ],
-  },
+      // ✅ Add your backend server with port
+      {
+        protocol: "https",
+        hostname: "talesfromthenorthpole.xyz",
+        port: "3001"
+      }
+    ]
+  }
 };
 
 // /** @type {import("next").NextConfig} */

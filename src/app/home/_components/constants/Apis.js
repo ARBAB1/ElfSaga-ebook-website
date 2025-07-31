@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3001"; // Adjust based on your backend route
+const BASE_URL = "https://talesfromthenorthpole.xyz:3001"; // Adjust based on your backend route
 
 // Login function
 export const loginUser = async (userData) => {
@@ -60,7 +60,7 @@ const uploadVideo = async (file, thumbnail) => {
 
 // Get all videos function
 const getVideos = async () => {
-  const response = await fetch(`${BASE_URL}/api/videos?page=1&limit=10`, { // Adjusted endpoint to match backend
+  const response = await fetch(`${BASE_URL}/videos?page=1&limit=100`, { // Adjusted endpoint to match backend
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('accessToken')}`, // Attach the JWT token
@@ -72,7 +72,7 @@ const getVideos = async () => {
 
 // Delete a video function
 const deleteVideo = async (fileId) => {
-  const response = await fetch(`${BASE_URL}/api/video/${fileId}`, {  // Make sure to match your backend route
+  const response = await fetch(`${BASE_URL}/video/${fileId}`, {  // Make sure to match your backend route
     method: 'DELETE',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,

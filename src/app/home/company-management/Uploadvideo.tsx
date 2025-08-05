@@ -8,7 +8,7 @@ type Video = {
     fileId: string;
 };
 
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = 'https://talesfromthenorthpole.xyz:3001';
 
 export default function VideoLibraryDashboard() {
     const [showUploadForm, setShowUploadForm] = useState(false);

@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3001"; // Adjust based on your backend route
+const BASE_URL = "https://talesfromthenorthpole.xyz:3001"; // Adjust based on your backend route
 
 // Login function
 export const loginUser = async (userData) => {
@@ -43,9 +43,9 @@ const uploadVideo = async (file, thumbnail) => {
   formData.append("totalChunks", 1); // Total chunks, adjust accordingly
 
   const response = await fetch(`${BASE_URL}/api/upload`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`, // Attach the JWT token
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Attach the JWT token
     },
     body: formData,
   });
@@ -54,32 +54,34 @@ const uploadVideo = async (file, thumbnail) => {
   if (response.ok) {
     console.log(data);
   } else {
-    console.error(data.message || 'Upload failed');
+    console.error(data.message || "Upload failed");
   }
 };
 
 // Get all videos function
 const getVideos = async () => {
-  const response = await fetch(`${BASE_URL}/videos?page=1&limit=100`, { // Adjusted endpoint to match backend
-    method: 'GET',
+  const response = await fetch(`${BASE_URL}/videos?page=1&limit=100`, {
+    // Adjusted endpoint to match backend
+    method: "GET",
     headers: {
-      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`, // Attach the JWT token
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // Attach the JWT token
     },
   });
   const data = await response.json();
-  console.log(data);  // List of videos
+  console.log(data); // List of videos
 };
 
 // Delete a video function
 const deleteVideo = async (fileId) => {
-  const response = await fetch(`${BASE_URL}/video/${fileId}`, {  // Make sure to match your backend route
-    method: 'DELETE',
+  const response = await fetch(`${BASE_URL}/video/${fileId}`, {
+    // Make sure to match your backend route
+    method: "DELETE",
     headers: {
-      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
   });
   const data = await response.json();
-  console.log(data);  // Confirmation of deletion
+  console.log(data); // Confirmation of deletion
 };
 
 // Logout function
@@ -99,8 +101,6 @@ export const logoutUser = async () => {
 
   return await res.json();
 };
-
-
 
 // export const searchCompanies = async (query) => {
 //   const res = await fetch(`${BASE_URL}/api/company/search?query=${query}`, {

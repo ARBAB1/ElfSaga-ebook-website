@@ -4,7 +4,7 @@ import Image from 'next/image';
 type Video = {
     video: string;
     thumbnail: string;
-    addedOn: string;
+    createdAt: string;
     fileId: string;
 };
 
@@ -19,7 +19,7 @@ export default function VideoLibraryDashboard() {
 
     const getVideos = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/videos?page=1&limit=10&paid=true`, {
+            const response = await fetch(`${BASE_URL}/videos?page=1&limit=100&paid=true`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
@@ -73,6 +73,7 @@ export default function VideoLibraryDashboard() {
     };
 
 
+
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', {
@@ -98,7 +99,7 @@ export default function VideoLibraryDashboard() {
             {
                 video,
                 thumbnail,
-                addedOn: new Date().toLocaleDateString(),
+                createdAt: new Date().toLocaleDateString(),
                 fileId: Math.random().toString(36).substring(2),
             },
         ]);
@@ -163,7 +164,7 @@ export default function VideoLibraryDashboard() {
     return (
         <div className="min-h-screen bg-[#FFFFFF] p-6 relative w-full flex-1">
             <h1 className="text-3xl text-[#066863] font-bold mb-6">
-                Free Playlist Of Tales From The North Pole Upload video by clicking + icon
+                Paid Playlist Of Tales From The North Pole Upload video by clicking + icon
             </h1>
 
             {showUploadForm && (
@@ -278,7 +279,7 @@ export default function VideoLibraryDashboard() {
                                 </label>
                             </div>
 
-                            <p className="text-sm text-gray-500">Posted on: {formatDate(video.addedOn)}</p>
+                            <p className="text-sm text-gray-500">Posted on: {formatDate(video.createdAt)}</p>
 
                             <button
                                 className="mt-2 text-[#06C4A2] font-medium"

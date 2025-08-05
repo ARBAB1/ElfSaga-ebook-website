@@ -13,13 +13,13 @@ export const NAV_DATA = [
       },
       {
         title: "Paid Playlsit Upload",
-        url: "/home/company-management",
+        url: "/home/paid-videos",
         icon: Icons.User,
         items: [],
       },
       {
         title: "Free Playlist Upload",
-        url: "/home/company-active-plans",
+        url: "/home/free-videos",
         icon: Icons.User,
         items: [],
       },

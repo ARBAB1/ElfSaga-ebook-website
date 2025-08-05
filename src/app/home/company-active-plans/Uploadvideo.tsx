@@ -19,7 +19,7 @@ export default function VideoLibraryDashboard() {
 
     const getVideos = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/videos?page=1&limit=10&paid_flag=true`, {
+            const response = await fetch(`${BASE_URL}/videos?page=1&limit=10&paid=true`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
@@ -71,7 +71,6 @@ export default function VideoLibraryDashboard() {
             console.error(`Error updating ${type}`, error);
         }
     };
-
 
 
     const formatDate = (dateString: string) => {

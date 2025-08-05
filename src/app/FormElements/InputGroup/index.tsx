@@ -70,7 +70,7 @@ dark:disabled:bg-dark
 dark:data-[active=true]:border-white`,
             type === "file"
               ? getFileStyles(props.fileStyleVariant!)
-              : "px-5.5 py-3 text-dark placeholder:text-dark-6 dark:text-white",
+              : "px-5.5 py-3 text-white placeholder:text-dark-6 dark:text-white",
             props.iconPosition === "left" && "pl-12.5",
             props.height === "sm" && "py-2.5",
           )}

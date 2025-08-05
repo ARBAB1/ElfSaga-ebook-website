@@ -30,7 +30,7 @@ export function Sidebar() {
 
       <aside
         className={cn(
-          "border-r bg-[#fffafa] dark:bg-gray-dark dark:border-gray-800 transition-all duration-300",
+          "border-r bg-[#122031] dark:bg-gray-dark dark:border-gray-800 transition-all duration-300",
           isMobile
             ? "fixed top-0 bottom-0 z-50 w-64"
             : collapsed

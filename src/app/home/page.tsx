@@ -1,9 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { FaBuilding, FaCheckCircle } from 'react-icons/fa';
-// import { getTotalCompanies } from "../home/_components/constants/Apis";
-// TODO: Import getActiveCompanies from the correct module or implement it if needed
-// import getTopTenCompanies from the correct location or implement it if needed
+import { getfreeVideos } from "../home/_components/constants/Apis";
+import { getpaidVideos } from "../home/_components/constants/Apis";
+import { getallVideos } from "../home/_components/constants/Apis";
 import 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -18,31 +18,31 @@ import {
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 export default function Home() {
-  const [totalCompanies, setTotalCompanies] = useState(0);
-  const [activeCompanies, setActiveCompanies] = useState(0);
+  const [freeVideos, setfreeVideos] = useState(0);
+  const [paidVideos, setpaidVideos] = useState(0);
   type Company = { name: string; email: string };
-  const [topCompanies, setTopCompanies] = useState<Company[]>([]);
+  const [allVideos, setallVideos] = useState<Company[]>([]);
 
-  // useEffect(() => {
-  //   getTotalCompanies()
-  //     .then((res: { total?: number }) => setTotalCompanies(res.total || 0))
-  //     .catch((err: unknown) => console.error("Total company error", err));
+  useEffect(() => {
+    getfreeVideos()
+      .then((res: { total?: number }) => setfreeVideos(res.total || 0))
+      .catch((err: unknown) => console.error("Free Video error", err));
 
-  //   getActiveCompanies()
-  //     .then((res: { total?: number }) => setActiveCompanies(res.total || 0))
-  //     .catch((err: unknown) => console.error("Active company error", err));
+    getpaidVideos()
+      .then((res: { total?: number }) => setpaidVideos(res.total || 0))
+      .catch((err: unknown) => console.error("Paid Video error", err));
 
-  //   getTopTenCompanies()
-  //     .then((res: Company[]) => setTopCompanies(res))
-  //     .catch((err: unknown) => console.error("Top companies error", err));
-  // }, []);
+    getallVideos()
+      .then((res: Company[]) => setallVideos(res))
+      .catch((err: unknown) => console.error("All Videos error", err));
+  }, []);
 
   const chartData = {
     labels: ['Action', 'Mystery', 'Love Story', 'Thriller', 'Inspirational', 'Lessons'],
     datasets: [
       {
         label: 'Count',
-        data: [totalCompanies, 9, 6, 10, 2, activeCompanies],
+        data: [freeVideos, 9, 6, 10, 2, paidVideos],
         backgroundColor: '#066863',
       },
     ],
@@ -58,14 +58,14 @@ export default function Home() {
             <div className="bg-[#066863] text-white rounded p-6 flex items-center gap-4 shadow">
               <FaBuilding className="text-3xl" />
               <div>
-                <p className="text-2xl font-bold">{totalCompanies}</p>
+                <p className="text-2xl font-bold">{freeVideos}</p>
                 <p className="font-poppins font-semibold text-sm">Free Videos</p>
               </div>
             </div>
             <div className="bg-[#066863] text-white rounded p-6 flex items-center gap-4 shadow">
               <FaBuilding className="text-3xl" />
               <div>
-                <p className="text-2xl font-bold">{activeCompanies}</p>
+                <p className="text-2xl font-bold">{paidVideos}</p>
                 <p className="font-poppins font-semibold text-sm">Paid Videos</p>
               </div>
             </div>
@@ -86,7 +86,7 @@ export default function Home() {
             Last Posted Videos By Admin
           </h3>
           <ul className="space-y-4 text-sm text-gray-700">
-            {topCompanies.map((company, idx) => (
+            {allVideos.map((company, idx) => (
               <li key={idx} className="flex justify-between items-start border-b pb-2">
                 <div>
                   <p className="font-poppins font-semibold text-sm">{company?.name}</p>

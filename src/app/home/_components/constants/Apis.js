@@ -135,33 +135,33 @@ export const logoutUser = async () => {
 //   return data.exists;
 // };
 
-// export const getTopTenCompanies = async () => {
-//   const res = await fetch(`${BASE_URL}/api/company/top10`, {
-//     method: "GET",
-//     headers: { "Content-Type": "application/json" },
-//     credentials: "include",
-//   });
-//   let result = await res.json();
-//   if (result.status === 200) {
-//     return result.data || [];
-//   }
-//   else return [];
-// };
+export const getallVideos = async () => {
+  const res = await fetch(`${BASE_URL}/videos?page=1&limit=10&paid=true`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  let result = await res.json();
+  if (result.status === 200) {
+    return result.data || [];
+  }
+  else return [];
+};
 
-// export const getTotalCompanies = async () => {
-//   const res = await fetch(`${BASE_URL}/api/company/totalcompany`, {
-//     method: "GET",
-//     headers: { "Content-Type": "application/json" },
-//     credentials: "include",
-//   });
-//   return await res.json();
-// };
+export const getfreeVideos = async () => {
+  const res = await fetch(`${BASE_URL}/videos?page=1&limit=10&paid=false`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  return await res.json();
+};
 
-// export const getActiveCompanies = async () => {
-//   const res = await fetch(`${BASE_URL}/api/company/activecompany`, {
-//     method: "GET",
-//     headers: { "Content-Type": "application/json" },
-//     credentials: "include",
-//   });
-//   return await res.json();
-// };
+export const getpaidVideos = async () => {
+  const res = await fetch(`${BASE_URL}/videos?page=1&limit=10&paid=true`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  return await res.json();
+};

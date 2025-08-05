@@ -28,6 +28,11 @@ export default {
         protocol: "https",
         hostname: "talesfromthenorthpole.xyz",
         port: "3001"
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3001"
       }
     ]
   }

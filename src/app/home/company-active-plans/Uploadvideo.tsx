@@ -8,7 +8,7 @@ type Video = {
     fileId: string;
 };
 
-const BASE_URL = 'https://talesfromthenorthpole.xyz:3001';
+const BASE_URL = 'http://localhost:3001';
 
 export default function VideoLibraryDashboard() {
     const [showUploadForm, setShowUploadForm] = useState(false);
@@ -19,7 +19,7 @@ export default function VideoLibraryDashboard() {
 
     const getVideos = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/videos?page=1&limit=10`, {
+            const response = await fetch(`${BASE_URL}/videos?page=1&limit=10&paid_flag=true`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
@@ -43,6 +43,45 @@ export default function VideoLibraryDashboard() {
     useEffect(() => {
         getVideos();
     }, []);
+
+    const handleEdit = async (fileId: string, type: 'video' | 'thumbnail', file: File) => {
+        const formData = new FormData();
+        formData.append("fileId", fileId);
+        formData.append(type, file);
+
+        try {
+            const endpoint = `${BASE_URL}/${type}`; // Handles both cases
+
+            const response = await fetch(endpoint, {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
+                body: formData,
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                console.log(`${type} updated successfully`, data);
+                await getVideos(); // refresh UI
+            } else {
+                console.error(`Failed to update ${type}`, data);
+            }
+        } catch (error) {
+            console.error(`Error updating ${type}`, error);
+        }
+    };
+
+
+
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    };
 
     const handleUpload = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -116,9 +155,11 @@ export default function VideoLibraryDashboard() {
         }
     };
 
+
     if (loading) {
         return <div>Loading videos...</div>;
     }
+
 
     return (
         <div className="min-h-screen bg-[#FFFFFF] p-6 relative w-full flex-1">
@@ -183,44 +224,62 @@ export default function VideoLibraryDashboard() {
 
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {videos.map((video) => {
-                    const thumbnail = true
-                        ? `${BASE_URL}${video.thumbnail}`
-                        : '/default-thumbnail.jpg';
-
-                    const videoSrc = video.video
-                        ? `${BASE_URL}${video.video}`
-                        : '/default-video.mp4';
-
+                    const thumbnail = `${BASE_URL}${video.thumbnail}`;
+                    const videoSrc = `${BASE_URL}${video.video}`;
                     const isBlobThumb = video.thumbnail?.startsWith('blob:');
                     const isRemoteThumb = thumbnail.startsWith('http');
 
                     return (
                         <div key={video.fileId} className="bg-white rounded-lg shadow-md p-4">
-                            {/* Handle blob or fallback thumbnail */}
-                            {isRemoteThumb && !isBlobThumb ? (
-                                <Image
-                                    src={thumbnail}
-                                    alt="Thumbnail"
-                                    width={500}
-                                    height={300}
-                                    className="w-full h-40 object-cover rounded mb-2"
-                                />
-                            ) : (
-                                <img
-                                    src={video.thumbnail || '/default-thumbnail.jpg'}
-                                    alt="Fallback Thumbnail"
-                                    className="w-full h-40 object-cover rounded mb-2"
-                                />
-                            )}
+                            {/* Thumbnail with edit icon */}
+                            <div className="relative group">
+                                {isRemoteThumb && !isBlobThumb ? (
+                                    <Image
+                                        src={thumbnail}
+                                        alt="Thumbnail"
+                                        width={500}
+                                        height={300}
+                                        className="w-full h-40 object-cover rounded mb-2"
+                                    />
+                                ) : (
+                                    <img
+                                        src={thumbnail || '/default-thumbnail.jpg'}
+                                        alt="Fallback Thumbnail"
+                                        className="w-full h-40 object-cover rounded mb-2"
+                                    />
+                                )}
+                                <label className="absolute top-2 right-2 bg-white text-sm rounded-full shadow p-1 cursor-pointer hidden group-hover:block">
+                                    ✏️
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={(e) => {
+                                            const file = e.target.files?.[0];
+                                            if (file) handleEdit(video.fileId, 'thumbnail', file);
+                                        }}
+                                    />
+                                </label>
+                            </div>
 
-                            {/* Video preview */}
-                            <video
-                                src={videoSrc}
-                                controls
-                                className="w-full rounded mb-2"
-                            />
+                            {/* Video with edit icon */}
+                            <div className="relative group">
+                                <video src={videoSrc} controls className="w-full rounded mb-2" />
+                                <label className="absolute top-2 right-2 bg-white text-sm rounded-full shadow p-1 cursor-pointer hidden group-hover:block">
+                                    ✏️
+                                    <input
+                                        type="file"
+                                        accept="video/*"
+                                        className="hidden"
+                                        onChange={(e) => {
+                                            const file = e.target.files?.[0];
+                                            if (file) handleEdit(video.fileId, 'video', file);
+                                        }}
+                                    />
+                                </label>
+                            </div>
 
-                            <p className="text-sm text-gray-500">Added on: {video.addedOn}</p>
+                            <p className="text-sm text-gray-500">Posted on: {formatDate(video.addedOn)}</p>
 
                             <button
                                 className="mt-2 text-[#06C4A2] font-medium"
@@ -233,7 +292,6 @@ export default function VideoLibraryDashboard() {
                 })}
             </div>
 
-
             <button
                 onClick={() => setShowUploadForm(true)}
                 className="fixed bottom-8 right-8 bg-[#41FCB4] hover:bg-[#06C4A2] text-[#066863] text-3xl rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
@@ -241,5 +299,6 @@ export default function VideoLibraryDashboard() {
                 +
             </button>
         </div>
+
     );
 }

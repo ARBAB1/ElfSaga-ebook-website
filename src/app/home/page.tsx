@@ -59,14 +59,14 @@ export default function Home() {
               <FaBuilding className="text-3xl" />
               <div>
                 <p className="text-2xl font-bold">{totalCompanies}</p>
-                <p className="font-poppins font-semibold text-sm">Total Videos</p>
+                <p className="font-poppins font-semibold text-sm">Free Videos</p>
               </div>
             </div>
             <div className="bg-[#066863] text-white rounded p-6 flex items-center gap-4 shadow">
               <FaBuilding className="text-3xl" />
               <div>
                 <p className="text-2xl font-bold">{activeCompanies}</p>
-                <p className="font-poppins font-semibold text-sm">Active Videos</p>
+                <p className="font-poppins font-semibold text-sm">Paid Videos</p>
               </div>
             </div>
           </div>
